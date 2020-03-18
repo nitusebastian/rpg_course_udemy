@@ -4,57 +4,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Mover : MonoBehaviour
+namespace RPG.Movement
 {
-    [SerializeField] private Transform target;
-    private NavMeshAgent agent;
+    public class Mover : MonoBehaviour
+    {
+        private NavMeshAgent agent;
+        private Animator animator;
+    
 
-    private Ray ray;
+        private void Awake()
+        {
+            agent = GetComponent<NavMeshAgent>();
+            animator = GetComponent<Animator>();
+        }
 
-    private Animator animator;
-    [SerializeField] private float maxSpeed = 50f;
+        // Update is called once per frame
+        void Update()
+        {
+            UpdateAnimator();
+        }
+
+        private void UpdateAnimator()
+        {
+            Vector3 velocity = agent.velocity;
+            Vector3 localVelocity = transform.InverseTransformDirection(velocity);
+            float speed = localVelocity.z;
+            animator.SetFloat("forwardSpeed", speed);
+        }
 
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    private void Awake()
-    {
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetMouseButton(0))
+        public void MoveTo(Vector3 destination)
         {
-            MoveToCursor();
-        }
-
-        UpdateAnimator();
-    }
-
-    private void UpdateAnimator()
-    {
-        Vector3 velocity = agent.velocity;
-        Vector3 localVelocity = transform.InverseTransformDirection(velocity);
-        float speed = localVelocity.z;
-        animator.SetFloat("forwardSpeed", speed);
-    }
-
-    private void MoveToCursor()
-    {
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        RaycastHit hit;
-        bool hasHit = Physics.Raycast(ray, out hit);
-        if (hasHit)
-        {
-            agent.SetDestination(hit.point);
+            agent.SetDestination(destination);
         }
     }
+
 }
+
+

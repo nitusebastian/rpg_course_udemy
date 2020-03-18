@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 770497364861657265}
   - component: {fileID: 770497364861657264}
   - component: {fileID: 1106502208}
+  - component: {fileID: 7572386622539169189}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -86,8 +87,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ddd54b0afd05e540806f81240f4b745, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  maxSpeed: 7
 --- !u!195 &770497364861657264
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -129,6 +128,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7572386622539169189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770497364861657290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f74b23f2f01494baeaf6193d34c657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4703039881021351443
 PrefabInstance:
   m_ObjectHideFlags: 0
