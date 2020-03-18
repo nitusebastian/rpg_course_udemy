@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using RPG.Combat;
+using RPG.Core;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace RPG.Movement
 {
-    public class Mover : MonoBehaviour
+    public class Mover : MonoBehaviour, IAction
     {
-        private NavMeshAgent agent;
+        private NavMeshAgent navMeshAgent;
         private Animator animator;
     
 
         private void Awake()
         {
-            agent = GetComponent<NavMeshAgent>();
+            navMeshAgent = GetComponent<NavMeshAgent>();
             animator = GetComponent<Animator>();
         }
 
@@ -26,18 +28,29 @@ namespace RPG.Movement
 
         private void UpdateAnimator()
         {
-            Vector3 velocity = agent.velocity;
+            Vector3 velocity = navMeshAgent.velocity;
             Vector3 localVelocity = transform.InverseTransformDirection(velocity);
             float speed = localVelocity.z;
             animator.SetFloat("forwardSpeed", speed);
         }
 
-    
+        public void StartMoveAction(Vector3 destination)
+        {
+            GetComponent<ActionScheduler>().StartAction(this);
+            MoveTo(destination);
+        }
 
         public void MoveTo(Vector3 destination)
         {
-            agent.SetDestination(destination);
+            navMeshAgent.SetDestination(destination);
+            navMeshAgent.isStopped = false;
         }
+
+        public void Cancel()
+        {
+            navMeshAgent.isStopped = true;
+        }
+
     }
 
 }
