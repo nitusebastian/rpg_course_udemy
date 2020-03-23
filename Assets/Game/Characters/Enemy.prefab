@@ -28,6 +28,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseDistance: 5
   suspicionTime: 5
+  patrolPath: {fileID: 0}
+  waypointTolerance: 1
+  patrolSpeedFraction: 0.31
 --- !u!114 &3065459706697698541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,6 +112,11 @@ PrefabInstance:
       propertyPath: m_Speed
       value: 3.66
       objectReference: {fileID: 0}
+    - target: {fileID: 770497364861657265, guid: a27feaa85ce7d6f4bb225b06a14d50b0,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 770497364861657270, guid: a27feaa85ce7d6f4bb225b06a14d50b0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -117,7 +125,7 @@ PrefabInstance:
     - target: {fileID: 770497364861657270, guid: a27feaa85ce7d6f4bb225b06a14d50b0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.25
       objectReference: {fileID: 0}
     - target: {fileID: 770497364861657270, guid: a27feaa85ce7d6f4bb225b06a14d50b0,
         type: 3}

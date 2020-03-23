@@ -23,6 +23,8 @@ namespace RPG.Control
 
         [SerializeField] private PatrolPath patrolPath;
         [SerializeField] float waypointTolerance = 1f;
+        [Range(0,1)]
+        [SerializeField] private float patrolSpeedFraction = 0.2f;
         
         private Vector3 guardPosition;
         private float timeSinceLastSawPlayer = Mathf.Infinity;
@@ -77,7 +79,7 @@ namespace RPG.Control
                 nextWaypoint = GetCurrentWaypoint();
             }
             
-            mover.StartMoveAction(nextWaypoint);
+            mover.StartMoveAction(nextWaypoint, patrolSpeedFraction);
         }
 
         private void CycleWaypoint()
