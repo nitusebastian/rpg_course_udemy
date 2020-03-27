@@ -1,4 +1,5 @@
 using System;
+using RPG.Comb;
 using RPG.Core;
 using RPG.Movement;
 using UnityEngine;
@@ -8,14 +9,13 @@ namespace RPG.Combat
     public class Fighter: MonoBehaviour, IAction
     {
         private Health target;
-        [SerializeField] float weaponRange = 2f;
-        [SerializeField] private float timeBetweenAttacks = 1f;
-        [SerializeField] private GameObject weaponPrefab = null;
+      
+        
         [SerializeField] private Transform handTransform = null;
-        [SerializeField] private AnimatorOverrideController weaponOverride = null;
+        [SerializeField] private Weapon weapon;
         
         private float timeSinceLastAttack = Mathf.Infinity;
-        [SerializeField] private float damage = 30;
+       
 
         public void Start()
         {
@@ -42,16 +42,17 @@ namespace RPG.Combat
         
         public void SpawnWeapon()
         {
-            Instantiate(weaponPrefab, handTransform);
+            if(weapon == null) return;
+            
             Animator animator = GetComponent<Animator>();
-            animator.runtimeAnimatorController = weaponOverride;
+            weapon.Spawn(handTransform, animator);
         }
 
         private void AttackBehaviour()
         {
             transform.LookAt(target.transform.position);
             
-            if (timeSinceLastAttack >= timeBetweenAttacks)
+            if (timeSinceLastAttack >= weapon.GetTimeBetweenAttacks())
             {
                 // This will trigger the Hit() event (eventually)
                 TriggerAttack();
@@ -84,12 +85,12 @@ namespace RPG.Combat
         {
             if (target == null) return;
             
-            target.TakeDamage(damage);
+            target.TakeDamage(weapon.GetDamage());
         }
 
         private bool GetIsInRange()
         {
-            return Vector3.Distance(target.transform.position , transform.position) <= weaponRange;
+            return Vector3.Distance(target.transform.position , transform.position) <= weapon.GetRange();
         }
 
         public void Cancel()

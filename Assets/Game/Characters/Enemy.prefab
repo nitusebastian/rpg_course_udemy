@@ -175,13 +175,19 @@ PrefabInstance:
     - target: {fileID: 770497364861657290, guid: a27feaa85ce7d6f4bb225b06a14d50b0,
         type: 3}
       propertyPath: m_Name
-      value: Enemy (1)
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 2050229997625601124, guid: a27feaa85ce7d6f4bb225b06a14d50b0,
         type: 3}
       propertyPath: health
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 2272900849398566441, guid: a27feaa85ce7d6f4bb225b06a14d50b0,
+        type: 3}
+      propertyPath: weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: d4f837e723c19e648a714e18e6105187,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a27feaa85ce7d6f4bb225b06a14d50b0, type: 3}
 --- !u!1 &7239796869408458752 stripped
