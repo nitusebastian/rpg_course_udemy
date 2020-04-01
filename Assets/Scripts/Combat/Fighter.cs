@@ -11,15 +11,18 @@ namespace RPG.Combat
         private Health target;
       
         
-        [SerializeField] private Transform handTransform = null;
-        [SerializeField] private Weapon weapon;
+        [SerializeField] private Transform rightHandTransform = null;
+        [SerializeField] private Transform leftHandTransform = null;
+        [SerializeField] private Weapon defaultWeapon = null;
+        
+        private Weapon currentWeapon = null;
         
         private float timeSinceLastAttack = Mathf.Infinity;
        
 
         public void Start()
         {
-            SpawnWeapon();
+            EquipWeapon(defaultWeapon);
         }
 
         public void Update()
@@ -40,19 +43,18 @@ namespace RPG.Combat
             }
         }
         
-        public void SpawnWeapon()
+        public void EquipWeapon(Weapon weapon)
         {
-            if(weapon == null) return;
-            
+            currentWeapon = weapon;
             Animator animator = GetComponent<Animator>();
-            weapon.Spawn(handTransform, animator);
+            currentWeapon.Spawn(rightHandTransform, leftHandTransform, animator);
         }
 
         private void AttackBehaviour()
         {
             transform.LookAt(target.transform.position);
             
-            if (timeSinceLastAttack >= weapon.GetTimeBetweenAttacks())
+            if (timeSinceLastAttack >= currentWeapon.GetTimeBetweenAttacks())
             {
                 // This will trigger the Hit() event (eventually)
                 TriggerAttack();
@@ -74,23 +76,37 @@ namespace RPG.Combat
             return targetToTest != null && !targetToTest.IsDead();
         }
 
-        //Animation Event
+        
         public void Attack(GameObject combatTarget)
         {
             GetComponent<ActionScheduler>().StartAction(this);
             target = combatTarget.GetComponent<Health>();
         }
 
+        //Animation Event
         public void Hit()
         {
             if (target == null) return;
-            
-            target.TakeDamage(weapon.GetDamage());
+
+            if (currentWeapon.HasProjectile())
+            {
+                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target);
+            }
+            else
+            {
+                target.TakeDamage(currentWeapon.GetDamage());
+            }
         }
+
+        public void Shoot()
+        {
+            Hit();
+        }
+        
 
         private bool GetIsInRange()
         {
-            return Vector3.Distance(target.transform.position , transform.position) <= weapon.GetRange();
+            return Vector3.Distance(target.transform.position , transform.position) <= currentWeapon.GetRange();
         }
 
         public void Cancel()
